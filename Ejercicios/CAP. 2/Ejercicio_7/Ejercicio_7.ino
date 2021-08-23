@@ -1,0 +1,58 @@
+const int GPIO_ROJO=27, GPIO_VERDE=26, GPIO_AZUL=25; 
+const int GPIO_ROJO_ANALOGICO=15, GPIO_VERDE_ANALOGICO=0, GPIO_AZUL_ANALOGICO=4;
+const int FRECUENCIA=5000, RESOLUCION=12; 
+int VALOR_ANALOGICO_ROJO=0, VALOR_ANALOGICO_VERDE=0, VALOR_ANALOGICO_AZUL=0, contador_FOR;
+
+void setup() 
+{
+  ledcSetup(0, FRECUENCIA, RESOLUCION);
+  ledcAttachPin(GPIO_ROJO, 0);
+
+  ledcSetup(1, FRECUENCIA, RESOLUCION);
+  ledcAttachPin(GPIO_VERDE, 1);
+
+  ledcSetup(2, FRECUENCIA, RESOLUCION);
+  ledcAttachPin(GPIO_AZUL, 2);
+
+  pinMode(GPIO_ROJO,OUTPUT);
+  pinMode(GPIO_VERDE,OUTPUT);
+  pinMode(GPIO_AZUL,OUTPUT); 
+
+  pinMode(GPIO_ROJO_ANALOGICO,INPUT);
+  pinMode(GPIO_VERDE_ANALOGICO,INPUT);
+  pinMode(GPIO_AZUL_ANALOGICO,INPUT); 
+
+  Serial.begin(115200);
+}
+
+void loop() 
+{
+  for(contador_FOR=0; contador_FOR<=50; contador_FOR++)
+  {
+   VALOR_ANALOGICO_ROJO=VALOR_ANALOGICO_ROJO+analogRead(GPIO_ROJO_ANALOGICO);
+  }
+  VALOR_ANALOGICO_ROJO=VALOR_ANALOGICO_ROJO/50;
+
+  for(contador_FOR=0; contador_FOR<=50; contador_FOR++)
+  {
+   VALOR_ANALOGICO_VERDE=VALOR_ANALOGICO_VERDE+analogRead(GPIO_VERDE_ANALOGICO);
+  }
+  VALOR_ANALOGICO_VERDE=VALOR_ANALOGICO_VERDE/50;
+
+  for(contador_FOR=0; contador_FOR<=50; contador_FOR++)
+  {
+   VALOR_ANALOGICO_AZUL=VALOR_ANALOGICO_AZUL+analogRead(GPIO_AZUL_ANALOGICO);
+  }
+  VALOR_ANALOGICO_AZUL=VALOR_ANALOGICO_AZUL/50;
+
+  ledcWrite(0,VALOR_ANALOGICO_ROJO);
+  ledcWrite(1,VALOR_ANALOGICO_VERDE);
+  ledcWrite(2,VALOR_ANALOGICO_AZUL);
+
+  Serial.print(VALOR_ANALOGICO_AZUL);
+  Serial.print("\t");
+  Serial.print(VALOR_ANALOGICO_ROJO);
+  Serial.print("\t");
+  Serial.println(VALOR_ANALOGICO_VERDE);
+  
+}

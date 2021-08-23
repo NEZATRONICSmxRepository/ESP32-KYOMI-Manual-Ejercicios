@@ -1,0 +1,15 @@
+html 
+{
+ font-family: Corbel;
+ display: inline-block;
+ margin: 0px auto;
+ text-align: center;
+}
+  
+body
+{
+ background-image: url('https://www.trackit.cl/micloud.jpg');
+ background-repeat: no-repeat;
+ background-attachment: fixed;
+ background-size: 100% 100%;
+} 

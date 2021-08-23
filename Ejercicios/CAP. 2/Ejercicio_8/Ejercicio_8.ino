@@ -1,0 +1,40 @@
+const int GPIO_ANALOGICO=32, GPIO_LED=33;
+int contador_FOR;
+float VALOR_ANALOGICO=0, VOLTAJE_MEDIDO=0, VOLTAJE_REAL=0, TEMPERATURA=0; 
+
+void setup() 
+{
+  pinMode(GPIO_ANALOGICO, INPUT);
+  pinMode(GPIO_LED, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() 
+{
+  TEMPERATURA=CALCULAR_TEMPERATURA();
+  while(TEMPERATURA>=40)
+  {
+    digitalWrite(GPIO_LED, HIGH);
+    TEMPERATURA=CALCULAR_TEMPERATURA();
+  }
+  digitalWrite(GPIO_LED, LOW);
+}
+
+float CALCULAR_TEMPERATURA()
+{
+  for(contador_FOR=0; contador_FOR<=100; contador_FOR++)
+  {
+    VALOR_ANALOGICO=VALOR_ANALOGICO+(analogRead(GPIO_ANALOGICO)*4095/1134);
+  }
+  VALOR_ANALOGICO=VALOR_ANALOGICO/100;
+  
+  VOLTAJE_MEDIDO=(3.3/4096)*VALOR_ANALOGICO;
+  VOLTAJE_REAL=(VOLTAJE_MEDIDO*(100000+56000))/100000;
+  TEMPERATURA=VOLTAJE_REAL/0.01;
+  
+  Serial.print(TEMPERATURA);
+  Serial.println("°C");
+  
+  return(TEMPERATURA);
+}
+
